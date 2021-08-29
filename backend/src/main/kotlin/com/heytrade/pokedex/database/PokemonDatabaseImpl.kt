@@ -34,6 +34,8 @@ internal class PokemonDatabaseImpl(
     private fun toPokemon(dao: PokemonDao) = Pokemon(dao.id, dao.name, dao.types.map { t -> Type(t) })
 
     override fun findAll(): Sequence<Pokemon> = pokemons.map(this::toPokemon).asSequence()
+    override fun findFavorites(): Sequence<Pokemon> =
+        pokemons.filter { favoritePokemon.contains(it.id) }.map(this::toPokemon).asSequence()
 
 
     override fun favPokemon(id: Int): Try<Either<NoPokemon, Pokemon>> {

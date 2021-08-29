@@ -3,6 +3,7 @@ package com.heytrade.pokedex.api
 import com.heytrade.pokedex.core.PokemonDoesNotExistError
 import com.heytrade.pokedex.core.PokemonFaver
 import com.heytrade.pokedex.core.PokemonSearcher
+import com.heytrade.pokedex.core.PokemonSearcher.PokemonFilter
 import com.heytrade.pokedex.model.Pokemon
 import io.mockk.every
 import io.mockk.mockk
@@ -49,16 +50,25 @@ internal class PokedexApiTest {
     private val ivysaurJson = """{"id":2,"name":"Ivysaur","types":[{"type":"Grass"},{"type":"Poison"}]}"""
 
     @Test
+    fun findAll() {
+        // Given that the search returns an Ivysaur
+        every { pokemonSearcher.searchBy(PokemonFilter()) } returns listOf(ivysaur())
+
+        // When we query the search by name endpoint
+        mockMvc
+            .perform(get("/pokedex/search"))
+            .andDo(print())
+
+            // Then we get an OK response code and the correct data
+            .andExpect(status().isOk)
+            .andExpect(content().string(containsString(ivysaurJson)))
+    }
+
+    @Test
     fun searchByName() {
         // Given that the search returns an Ivysaur
         val pokemonName = "Ivysaur"
-        every { pokemonSearcher.searchBy(pokemonName) } returns listOf(
-            Pokemon(
-                2,
-                pokemonName,
-                listOf(Pokemon.Type("Grass"), Pokemon.Type("Poison"))
-            )
-        )
+        every { pokemonSearcher.searchBy(PokemonFilter(name = pokemonName)) } returns listOf(ivysaur())
 
         // When we query the search by name endpoint
         mockMvc
@@ -69,6 +79,38 @@ internal class PokedexApiTest {
             .andExpect(status().isOk)
             .andExpect(content().string(containsString(ivysaurJson)))
     }
+
+    @Test
+    fun `search by name and fav`() {
+        // Given that the search returns an Ivysaur
+        val pokemonName = "Ivysaur"
+        every { pokemonSearcher.searchBy(PokemonFilter(name = pokemonName, favorite = true)) } returns listOf(ivysaur())
+
+        // When we query the search by name endpoint
+        mockMvc
+            .perform(get("/pokedex/search?name=$pokemonName&favorite=true"))
+            .andDo(print())
+
+            // Then we get an OK response code and the correct data
+            .andExpect(status().isOk)
+            .andExpect(content().string(containsString(ivysaurJson)))
+    }
+
+    @Test
+    fun `search by fav`() {
+        // Given that the search returns an Ivysaur
+        every { pokemonSearcher.searchBy(PokemonFilter(favorite = true)) } returns listOf(ivysaur())
+
+        // When we query the search by name endpoint
+        mockMvc
+            .perform(get("/pokedex/search?favorite=true"))
+            .andDo(print())
+
+            // Then we get an OK response code and the correct data
+            .andExpect(status().isOk)
+            .andExpect(content().string(containsString(ivysaurJson)))
+    }
+
 
     @Test
     fun favPokemon() {

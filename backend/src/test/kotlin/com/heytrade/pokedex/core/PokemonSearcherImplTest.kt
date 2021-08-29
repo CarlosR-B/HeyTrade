@@ -3,6 +3,7 @@ package com.heytrade.pokedex.core
 import assertk.assertThat
 import assertk.assertions.containsExactly
 import assertk.assertions.containsOnly
+import com.heytrade.pokedex.core.PokemonSearcher.PokemonFilter
 import com.heytrade.pokedex.model.Pokemon
 import io.mockk.every
 import io.mockk.mockk
@@ -19,7 +20,7 @@ internal class PokemonSearcherImplTest {
         every { pokemonDatabase.findAll() } returns sequenceOf(bulbasaur(), ivysaur())
 
         // When we search by its complete name
-        val pokemon = pokemonSearcher.searchBy("bulbasaur")
+        val pokemon = pokemonSearcher.searchBy(PokemonFilter("bulbasaur"))
 
         // Then we find only Bulbasaur
         assertThat(pokemon).containsOnly(bulbasaur())
@@ -31,7 +32,7 @@ internal class PokemonSearcherImplTest {
         every { pokemonDatabase.findAll() } returns sequenceOf(bulbasaur(), ivysaur())
 
         // When we search by their common suffix
-        val pokemon = pokemonSearcher.searchBy("SaUr")
+        val pokemon = pokemonSearcher.searchBy(PokemonFilter("SaUr"))
 
         // Then we find both of them
         assertThat(pokemon).containsExactly(bulbasaur(), ivysaur())

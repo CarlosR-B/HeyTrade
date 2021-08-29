@@ -22,6 +22,19 @@ internal class PokemonDatabaseImplTest(@Autowired private val pokemonDatabaseImp
         assertThat(pokemons).hasSize(4)
     }
 
+
+    @Test
+    fun `find fav pokemons`() {
+        // Given that we have a database with the first 4 Pokemon and one favorite
+        val id = 1
+        pokemonDatabaseImpl.favoritePokemon.add(id)
+        // When we retrieve all of them from the database
+        val pokemons = pokemonDatabaseImpl.findFavorites().toList()
+        // Then we get them back
+        assertThat(pokemons).hasSize(1)
+        assertThat(pokemons).containsOnly(bulbasaur())
+    }
+
     @Test
     fun favPokemon() {
         // Given an existing Pokemon
