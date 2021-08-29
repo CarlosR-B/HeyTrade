@@ -12,20 +12,20 @@ import com.heytrade.pokedex.model.Pokemon.Type
 import io.vavr.control.Either
 import io.vavr.control.Try
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.core.io.Resource
+import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
 
 // TODO: translate the repository into JPA and a persistent database
 @Component
 internal class PokemonDatabaseImpl(
-    @Value("classpath:pokemons.json") private val pokemonJsonFile: Resource
+    @Value("pokemons.json") private val pokemonJsonFile: ClassPathResource
 ) : PokemonDatabase, PokemonFavDatabase {
 
     // XXX We are loading the static json database from the filesystem once at boot time, so we have it cached on
     // each query
     private val objectMapper: ObjectMapper = jacksonObjectMapper()
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-    private val pokemons: List<PokemonDao> = objectMapper.readValue(pokemonJsonFile.file)
+    private val pokemons: List<PokemonDao> = objectMapper.readValue(pokemonJsonFile.inputStream)
 
     internal val favoritePokemon = mutableSetOf<Int>()
 
