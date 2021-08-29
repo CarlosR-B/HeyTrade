@@ -1,5 +1,6 @@
 package com.heytrade.pokedex.api
 
+import com.heytrade.pokedex.core.PokemonSearcher
 import com.heytrade.pokedex.model.Pokemon
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -8,10 +9,10 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("pokedex")
-class PokemonSearchApi {
+class PokemonSearchApi(val pokemonSearcher: PokemonSearcher) {
 
     @GetMapping("search")
     fun search(@RequestParam(required = false) name: String?): List<Pokemon> {
-        return listOf(Pokemon(1, "Bulbasaur", listOf("Grass", "Poison")))
+        return pokemonSearcher.searchBy(name)
     }
 }

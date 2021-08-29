@@ -2,3 +2,5 @@
 node_modules
 backend/.gradle/
 backend/build/
+
+backend/out/
