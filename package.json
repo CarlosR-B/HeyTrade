@@ -1,0 +1,47 @@
+{
+  "name": "pokedex-server",
+  "version": "1.0.0",
+  "description": "This repository contains a coding exercise for new developers joining the backend development team. This version is focused in Spring.",
+  "main": "setup.js",
+  "engines": {
+    "node": "^10.13 || 12 || 14 || 15",
+    "npm": ">=6"
+  },
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "validate": "npm-run-all --parallel lint"
+  },
+  "eslintConfig": {
+    "extends": [
+      "kentcdodds"
+    ],
+    "rules": {
+      "no-console": "off",
+      "import/no-cycle": "off",
+      "import/no-extraneous-dependencies": "off",
+      "babel/new-cap": "off",
+      "require-await": "warn"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/technoactivity/pokedex-server.git"
+  },
+  "keywords": [],
+  "author": "Denis J. Alonso <denjalonso@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/technoactivity/pokedex-server/issues"
+  },
+  "homepage": "https://github.com/technoactivity/pokedex-server#readme",
+  "dependencies": {
+    "eslint": "7.18.0"
+  },
+  "devDependencies": {
+    "eslint-config-kentcdodds": "17.3.0",
+    "npm-run-all": "4.1.5"
+  }
+}
