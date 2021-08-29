@@ -1,9 +1,10 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.5.30'
+    id "org.jetbrains.kotlin.jvm" version "1.5.30"
+    id "org.springframework.boot" version "2.5.4"
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+group 'com.heytrade.pokedex'
+version '1.0'
 
 repositories {
     mavenCentral()
