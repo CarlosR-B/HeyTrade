@@ -46,6 +46,21 @@ internal class PokemonFaverImplTest {
     }
 
     @Test
+    fun `faving a Pokemon causes a Database issue`() {
+        // Given a Pokemon Id
+        val id = 1
+        every { pokemonFavDatabase.favPokemon(1) } returns Try.failure(NullPointerException())
+
+        // When we fav the Pokemon
+        val response: Either<FavError, Pokemon> = pokemonFaverImpl.favPokemon(id)
+
+        // Then we get a DatabaseError back
+        assertThat(response.isLeft).isTrue()
+        assertThat(response.left).isInstanceOf(DatabaseError::class)
+    }
+
+
+    @Test
     fun unfavPokemon() {
         // Given a valid Pokemon Id
         val id = 1
@@ -74,6 +89,19 @@ internal class PokemonFaverImplTest {
         assertThat(response.left).isInstanceOf(PokemonDoesNotExistError::class)
     }
 
+    @Test
+    fun `unfaving a Pokemon causes a Database issue`() {
+        // Given a Pokemon Id
+        val id = 1
+        every { pokemonFavDatabase.unfavPokemon(1) } returns Try.failure(NullPointerException())
+
+        // When we unfav the Pokemon
+        val response: Either<FavError, Pokemon> = pokemonFaverImpl.unfavPokemon(id)
+
+        // Then we get a DatabaseError back
+        assertThat(response.isLeft).isTrue()
+        assertThat(response.left).isInstanceOf(DatabaseError::class)
+    }
 
     private fun bulbasaur(): Pokemon = Pokemon(1, "Bulbasaur", listOf(Pokemon.Type("Grass"), Pokemon.Type("Poison")))
 

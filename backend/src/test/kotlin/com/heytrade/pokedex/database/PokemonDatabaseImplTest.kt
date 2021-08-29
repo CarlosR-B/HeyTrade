@@ -2,6 +2,7 @@ package com.heytrade.pokedex.database
 
 import assertk.assertThat
 import assertk.assertions.*
+import com.heytrade.pokedex.core.PokemonFavDatabase.NoPokemon
 import com.heytrade.pokedex.model.Pokemon
 import com.heytrade.pokedex.model.Pokemon.Type
 import org.junit.jupiter.api.AfterEach
@@ -35,6 +36,19 @@ internal class PokemonDatabaseImplTest(@Autowired private val pokemonDatabaseImp
     }
 
     @Test
+    fun `fav non-existing Pokemon`() {
+        // Given a non-existing Pokemon
+        val id = -1
+        // When we fav the pokemon
+        val pokemon = pokemonDatabaseImpl.favPokemon(id)
+        // Then the Pokemon is returned and faved
+        assertThat(pokemon.isSuccess).isTrue()
+        assertThat(pokemon.get().isLeft).isTrue()
+        assertThat(pokemon.get().left).isInstanceOf(NoPokemon::class)
+        assertThat(pokemonDatabaseImpl.favoritePokemon).isEmpty()
+    }
+
+    @Test
     fun unfavPokemon() {
         // Given an existing Pokemon that is already faved
         val id = 1
@@ -45,6 +59,19 @@ internal class PokemonDatabaseImplTest(@Autowired private val pokemonDatabaseImp
         assertThat(pokemon.isSuccess).isTrue()
         assertThat(pokemon.get().isRight).isTrue()
         assertThat(pokemon.get().get()).isEqualTo(bulbasaur())
+        assertThat(pokemonDatabaseImpl.favoritePokemon).isEmpty()
+    }
+
+    @Test
+    fun `unfav non-existing Pokemon`() {
+        // Given a non-existing Pokemon
+        val id = -1
+        // When we fav the pokemon
+        val pokemon = pokemonDatabaseImpl.unfavPokemon(id)
+        // Then the Pokemon is returned and faved
+        assertThat(pokemon.isSuccess).isTrue()
+        assertThat(pokemon.get().isLeft).isTrue()
+        assertThat(pokemon.get().left).isInstanceOf(NoPokemon::class)
         assertThat(pokemonDatabaseImpl.favoritePokemon).isEmpty()
     }
 
