@@ -1,0 +1,4 @@
+FROM openjdk:18-jdk
+ARG JAR_FILE=build/libs/backend-1.0.jar
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
