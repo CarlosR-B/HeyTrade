@@ -1,5 +1,7 @@
 # HEYTRADE CODING EXERCISE
 
+[![Gradle build](https://github.com/CarlosR-B/HeyTrade/actions/workflows/gradle.yml/badge.svg?branch=feature%2Fpokedex_backend)](https://github.com/CarlosR-B/HeyTrade/actions/workflows/gradle.yml)
+
 THIS EXERCISE WAS CREATED BY OUR COLLEAGUES OF MYMOID
 AS we are sharing technologies in the backend we are using
 their awesome work for our own technical assessments.

@@ -16,6 +16,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin"
+    implementation "io.vavr:vavr:0.10.4"
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "com.willowtreeapps.assertk:assertk-jvm:0.24"
     testImplementation "io.mockk:mockk:1.12.0"
